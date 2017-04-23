@@ -646,7 +646,7 @@ int getCost(int cardNumber)
 //refactoring the five cards into seperate functions and adding subtle bugs into four of them
 
 //bug introduced - in the second if statement that checks if one of the treasures were drawn the "||"s were changed to "&&"s
-int adventurer(int currentPlayer, struct gameState *state, int drawntreasure, int cardDrawn, int *temphand, int z) {
+int playAdventurer(int currentPlayer, struct gameState *state, int drawntreasure, int cardDrawn, int *temphand, int z) {
       while(drawntreasure<2){
 	if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
 	  shuffle(currentPlayer, state);
@@ -666,10 +666,12 @@ int adventurer(int currentPlayer, struct gameState *state, int drawntreasure, in
 	z=z-1;
       }
       return 0;
+}
 
 //bug introduced - changed for loop condition from "i < 3" to "i < 0" so it won't draw any cards
-int smithy(int handPos, int currentPlayer, struct gameState *state) {
+int playSmithy(int handPos, int currentPlayer, struct gameState *state) {
       //+3 Cards
+      int i;
       for (i = 0; i < 0; i++)
 	{
 	  drawCard(currentPlayer, state);
@@ -681,7 +683,7 @@ int smithy(int handPos, int currentPlayer, struct gameState *state) {
 }
 
 //bug introduced - two actions are now subtracted instead of added
-int village(int handPos, int currentPlayer, struct gameState *state) {
+int playVillage(int handPos, int currentPlayer, struct gameState *state) {
       //+1 Card
       drawCard(currentPlayer, state);
 			
@@ -694,7 +696,7 @@ int village(int handPos, int currentPlayer, struct gameState *state) {
 }
 
 //bug introduced - state->outpostPlayed is being decremented by one instead of incremented by one
-int outpost(int handPos, int currentPlayer, struct gameState *state) {
+int playOutpost(int handPos, int currentPlayer, struct gameState *state) {
       //set outpost flag
       state->outpostPlayed--;
 			
@@ -703,7 +705,7 @@ int outpost(int handPos, int currentPlayer, struct gameState *state) {
       return 0;
 }
 
-int great_hall(int handPos, int currentPlayer, struct gameState *state) {
+int playGreat_hall(int handPos, int currentPlayer, struct gameState *state) {
       //+1 Card
       drawCard(currentPlayer, state);
 			
@@ -739,7 +741,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
   switch( card ) 
     {
     case adventurer:
-      adventurer(currentPlayer, state, drawntreasure, cardDrawn, temphand, z);
+      playAdventurer(currentPlayer, state, drawntreasure, cardDrawn, temphand, z);
       return 0;
 			
     case council_room:
@@ -884,12 +886,12 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       return 0;
 
     case smithy:
-      smithy(handPos, currentPlayer, state);      
+      playSmithy(handPos, currentPlayer, state);      
       return 0;
       
 		
     case village:
-      village(handPos, currentPlayer, state);   
+      playVillage(handPos, currentPlayer, state);   
       return 0;
 		
     case baron:
@@ -944,7 +946,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       return 0;
 		
     case great_hall:
-      great_hall(handPos, currentPlayer, state);
+      playGreat_hall(handPos, currentPlayer, state);
       return 0;
 		
     case minion:
@@ -1191,7 +1193,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       return 0;
 		
     case outpost:
-      outpost(handPos, currentPlayer, state);
+      playOutpost(handPos, currentPlayer, state);
       return 0;
 		
     case salvager:
