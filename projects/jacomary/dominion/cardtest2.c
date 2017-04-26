@@ -1,5 +1,5 @@
 /*
- * cardtest1.c
+ * cardtest2.c
  *   
      
  */
@@ -7,8 +7,8 @@
 /*
  * Include the following lines in your makefile:
  * 
- * cardtest1: cardtest1.c dominion.o rngs.o
- * gcc -o cardtest1 -g cardtest1.c dominion.o rngs.o $(CFLAGS)
+ * cardtest2: cardtest2.c dominion.o rngs.o
+ * gcc -o cardtest2 -g  cardtest2.c dominion.o rngs.o $(CFLAGS)
  */
 
 
@@ -19,7 +19,7 @@
 #include "rngs.h"
 #include <stdlib.h>
 
-#define TESTCARD "village"
+#define TESTCARD "adventurer"
 
 int main() {
 	int newCards = 0;
@@ -30,13 +30,16 @@ int main() {
 	int newBuys = 0;
     	int shuffledCards = 0;
 	int test_success = 1;
-    	int i, j, m;
+    	int i, j, m, z = 0;
     	int handPos = 0, bonus = 0;
     	int remove1, remove2;
     	int seed = 1000;
     	int numPlayers = 2;
     	int player = 0;
 	int otherPlayer = 1;
+	int cardDrawn = 0;
+	int drawntreasure = 0;
+	int temphand[MAX_HAND];
 	struct gameState game, testGame;
 	int k[10] = {adventurer, embargo, village, minion, mine, cutpurse,
 			sea_hag, tribute, smithy, council_room};
@@ -52,24 +55,45 @@ int main() {
 	// copy the game state to a test case
 	memcpy(&testGame, &game, sizeof(struct gameState));
 
-	playVillage(player, handPos, &testGame);	
+	playAdventurer(player, &testGame, drawntreasure, cardDrawn, temphand, z);
 
-	// Testing that the player got +1 cards	
-	newCards = 1;
-	//checking the hand	
-	printf("\nhand count = %d, expected hand count = %d\n", testGame.handCount[player], game.handCount[player] + newCards - discarded);
-	test_success = myassert(testGame.handCount[player] == (game.handCount[player] + newCards - discarded), test_success);
+ 	while(drawntreasure<2){
+		if (game.deckCount[player] <1){ //if the deck is empty we need to shuffle discard and add to deck
+	  		shuffle(player, &game);
+		}
+		drawCard(player, &game);
+		cardDrawn = game.hand[player][game.handCount[player]-1]; //top card of hand is most recently drawn card.
+		if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
+	  		drawntreasure++;
+		else{
+	  		temphand[z]=cardDrawn;
+	  		game.handCount[player]--; //this should just remove the top card (the most recently drawn one).
+	  		z++;
+		}
+      	}
+      	while(z-1>=0){
+		game.discard[player][game.discardCount[player]++]=temphand[z-1]; // discard all cards in play that have been drawn
+		z=z-1;
+      }
+
+	//Testing that the cards put in hand were treasure cards
+	
+	//Testing that the cards discarded were not treasure cards
+
+	// Testing the number of cards in hand
+	printf("\nhand count = %d, expected hand count = %d\n", testGame.handCount[player], game.handCount[player]);
+	test_success = myassert(testGame.handCount[player] == game.handCount[player], test_success);
 
 	//checking the deck
-	printf("\ndeck count = %d, expected deck count = %d\n", testGame.deckCount[player], game.deckCount[player] - newCards + shuffledCards);	
-	test_success = myassert(testGame.deckCount[player] == (game.deckCount[player] - newCards + shuffledCards), test_success);
+	printf("\ndeck count = %d, expected deck count = %d\n", testGame.deckCount[player], game.deckCount[player]);	
+	test_success = myassert(testGame.deckCount[player] == game.deckCount[player], test_success);
 	
-	// Testing that the player got +2 actions
-	newActions = 2;
-	// decremented the actions by one because this unit test does not enter the playCard function which is in charge of decrementing the players actions when action cards are played	
-	printf("\nnumber of actions = %d, expected number of actions = %d\n", testGame.numActions - turnAction, game.numActions + newActions - turnAction);
-	test_success = myassert((testGame.numActions - turnAction) == (game.numActions + newActions - turnAction), test_success);
 		
+	// Testing that actionss are unchanged
+	printf("\nnumber of actions = %d, expected number of actions = %d\n", testGame.numActions, game.numActions);
+	test_success = myassert(testGame.numActions == (game.numActions), test_success);
+
+	
 	// Testing that buys are unchanged
 	newBuys = 0;
 	printf("\nnumber of buys = %d, expected number of buys = %d\n", testGame.numBuys, game.numBuys + newBuys);

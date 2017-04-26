@@ -645,15 +645,15 @@ int getCost(int cardNumber)
 
 //refactoring the five cards into seperate functions and adding subtle bugs into four of them
 
-//bug introduced - in the second if statement that checks if one of the treasures were drawn the "||"s were changed to "&&"s
+//bug introduced - changed the condition in the while statement to drawntreasure < 3 instead of 2
 int playAdventurer(int currentPlayer, struct gameState *state, int drawntreasure, int cardDrawn, int *temphand, int z) {
-      while(drawntreasure<2){
+      while(drawntreasure<3){
 	if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
 	  shuffle(currentPlayer, state);
 	}
 	drawCard(currentPlayer, state);
 	cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer]-1];//top card of hand is most recently drawn card.
-	if (cardDrawn == copper && cardDrawn == silver && cardDrawn == gold)
+	if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
 	  drawntreasure++;
 	else{
 	  temphand[z]=cardDrawn;
@@ -717,7 +717,11 @@ int playGreat_hall(int handPos, int currentPlayer, struct gameState *state) {
       return 0;
 }
 
-int assert(int test, int test_success) {
+// As suggested in assignment 3 instructions, I made my own assert.
+// it prints a failure message but won't exit the program so the other tests can run.
+// The parameters are test which is the truth statement and test_success which keeps track of if the test is successful since we are not exiting upon failure.
+// It returns test_success.
+int myassert(int test, int test_success) {
 	if(!test){
 		printf("test failed\n");
 		test_success = 0;
