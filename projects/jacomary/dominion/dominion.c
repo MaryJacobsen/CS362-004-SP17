@@ -717,6 +717,14 @@ int playGreat_hall(int handPos, int currentPlayer, struct gameState *state) {
       return 0;
 }
 
+int assert(int test, int test_success) {
+	if(!test){
+		printf("test failed\n");
+		test_success = 0;
+	}
+	return test_success;
+}
+
 int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus)
 {
   int i;
