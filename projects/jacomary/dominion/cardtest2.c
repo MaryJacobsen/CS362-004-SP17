@@ -22,23 +22,26 @@
 #define TESTCARD "adventurer"
 
 int main() {
-	int newCards = 0;
-    	int discarded = 1;
-    	int newCoins = 0;
-	int newActions = 0;
-	int turnAction = 1;
-	int newBuys = 0;
-    	int shuffledCards = 0;
+	//int newCards = 0;
+    	//int discarded = 1;
+    	//int newCoins = 0;
+	//int newActions = 0;
+	//int turnAction = 1;
+	//int newBuys = 0;
+    	//int shuffledCards = 0;
 	int test_success = 1;
-    	int i, j, m, z = 0;
-    	int handPos = 0, bonus = 0;
-    	int remove1, remove2;
+    	int i, j, m; 
+	int z = 0;
+    	//int handPos = 0; 
+	//int bonus = 0;
+    	//int remove1, remove2;
     	int seed = 1000;
     	int numPlayers = 2;
     	int player = 0;
 	int otherPlayer = 1;
 	int cardDrawn = 0;
 	int drawntreasure = 0;
+	int treasureOne, treasureTwo, testTreasureOne, testTreasureTwo;
 	int temphand[MAX_HAND];
 	struct gameState game, testGame;
 	int k[10] = {adventurer, embargo, village, minion, mine, cutpurse,
@@ -74,17 +77,46 @@ int main() {
       	while(z-1>=0){
 		game.discard[player][game.discardCount[player]++]=temphand[z-1]; // discard all cards in play that have been drawn
 		z=z-1;
-      }
+        }
 
-	//Testing that the cards put in hand were treasure cards
+	//Testing that the cards put in hand were the correct treasure cards
 	
+	//getting top two cards in hand
+	treasureOne = game.hand[player][game.handCount[player]-2];	
+	treasureTwo = game.hand[player][game.handCount[player]-1];
+	testTreasureOne = testGame.hand[player][game.handCount[player]-2];	
+	testTreasureTwo = testGame.hand[player][game.handCount[player]-1];
+
+	//checking that they are treasure cards
+	test_success = myassert(treasureOne == copper || treasureOne == silver || treasureOne == gold, test_success);	
+	test_success = myassert(treasureTwo == copper || treasureTwo == silver || treasureTwo == gold, test_success);
+	test_success = myassert(testTreasureOne == copper || testTreasureOne == silver || testTreasureOne == gold, test_success);
+	test_success = myassert(testTreasureTwo == copper || testTreasureTwo == silver || testTreasureTwo == gold, test_success);
+
+	//checking that both game and testGame got the same treasure cards
+	printf("\nfirst drawn treasure = %d, expected first drawn treasure = %d (note - 4 is copper, 5 is silver, 6 is gold)\n", testTreasureOne, treasureOne);
+	test_success = myassert(testTreasureOne == treasureOne, test_success);
+	printf("\nsecond drawn treasure = %d , expected second drawn treasure = %d (note - 4 is copper, 5 is silver, 6 is gold)\n", testTreasureTwo, treasureTwo);
+	test_success = myassert(testTreasureTwo == treasureTwo, test_success);
+	
+	//Testing the number of cards discarded
+	printf("\nnumber of cards discarded = %d, expected number of cards discarded = %d\n", testGame.discardCount[player], game.discardCount[player]);
+	test_success = myassert(testGame.discardCount[player] == game.discardCount[player], test_success);
+
 	//Testing that the cards discarded were not treasure cards
+	for(i = 0; i < game.discardCount[player]; i++) {
+		test_success = myassert(game.discard[player][i] != copper && game.discard[player][i] != silver && game.discard[player][i] != gold, test_success);
+	}
+	
+	for(j = 0; j < testGame.discardCount[player]; j++) {	
+		test_success = myassert(testGame.discard[player][j] != copper && testGame.discard[player][j] != silver && testGame.discard[player][j] != gold, test_success);
+	}
 
 	// Testing the number of cards in hand
 	printf("\nhand count = %d, expected hand count = %d\n", testGame.handCount[player], game.handCount[player]);
 	test_success = myassert(testGame.handCount[player] == game.handCount[player], test_success);
 
-	//checking the deck
+	//checking the number of cards in deck
 	printf("\ndeck count = %d, expected deck count = %d\n", testGame.deckCount[player], game.deckCount[player]);	
 	test_success = myassert(testGame.deckCount[player] == game.deckCount[player], test_success);
 	
@@ -95,9 +127,8 @@ int main() {
 
 	
 	// Testing that buys are unchanged
-	newBuys = 0;
-	printf("\nnumber of buys = %d, expected number of buys = %d\n", testGame.numBuys, game.numBuys + newBuys);
-	test_success = myassert(testGame.numBuys == (game.numBuys + newBuys), test_success);
+	printf("\nnumber of buys = %d, expected number of buys = %d\n", testGame.numBuys, game.numBuys);
+	test_success = myassert(testGame.numBuys == game.numBuys, test_success);
 
 	// Testing that no state changes occured for the other player	
 	printf("\nother player hand count = %d, other player expected hand count = %d\n", testGame.handCount[otherPlayer], game.handCount[otherPlayer]);
