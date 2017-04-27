@@ -34,7 +34,7 @@ int main() {
     	int handPos = 0, bonus = 0;
     	int remove1, remove2;
 	int choice1, choice2 = 4;
-	int gain = 0;
+	int gain;
     	int seed = 1000;
     	int numPlayers = 2;
     	int player = 0;
@@ -47,11 +47,14 @@ int main() {
 	initializeGame(numPlayers, k, seed, &game);
 	
 
-	printf("----------------- Testing Card: %s ----------------\n", TESTCARD);
+	printf("\n----------------- Testing Card: %s ----------------\n", TESTCARD);
 
-	// ----------- TEST 1 -------------
+	
+	printf("\n\n**************************************************\n");
 
 	// testing that the card gained can be up to two more than the card trashed and that the gained card is in discard pile each time
+	// test case 1
+	gain = 0;
 	game.hand[player][0] = remodel;
 	game.hand[player][1] = adventurer;
 	game.hand[player][2] = estate;
@@ -61,7 +64,7 @@ int main() {
 	// copy the game state to a test case	
 	memcpy(&testGame, &game, sizeof(struct gameState));
 
-	//testing the gained card costing two more than the trashed card
+	//testing a gained card costing two more than the trashed card
 	printf("\ncard to trash costs %d, card to gain costs %d\n", getCost(game.hand[player][4]), getCost(7));
  	
 	r = playRemodel(4, 7, handPos, player, &testGame, m, n);
@@ -73,8 +76,15 @@ int main() {
 	}
 	printf("\n");
 	
+	//testing that the gained card is in the discard pile
 	printf("Gained card %d should be in the discard pile\n", game.hand[player][1]);
+
 	printf("discard pile contents: ");
+
+	if(testGame.discardCount[player] == 0){
+		printf(" empty");
+	}
+
 	for(i=0; i<testGame.discardCount[player]; i++){
 	   	printf("(%d)", testGame.discard[player][i]);
 	   	if(testGame.discard[player][i] == 7){
@@ -82,12 +92,103 @@ int main() {
 		}
 	}
 	printf("\n");
+
+	if(gain == 0){
+		test_success = myassert(0, test_success);
+	}
+	
+	printf("\n**************************************************\n\n");
+
+	// test case 2
+	gain = 0;
+	game.hand[player][0] = remodel;
+	game.hand[player][1] = adventurer;
+	game.hand[player][2] = estate;
+	game.hand[player][3] = copper;
+	game.hand[player][4] = smithy;
+	
+	// copy the game state to a test case	
+	memcpy(&testGame, &game, sizeof(struct gameState));
+
+	//testing a gained card costing two less than the trashed card
+	printf("\ncard to trash costs %d, card to gain costs %d\n", getCost(game.hand[player][4]), getCost(1));
+ 	
+	r = playRemodel(4, 1, handPos, player, &testGame, m, n);
+	
+	printf("playRemodel returned %d, expected to return %d\n", r, 0);
+	
+	if(r == -1){
+	   	test_success = myassert(0, test_success);
+	}
+	printf("\n");
+	
+	printf("Gained card %d should be in the discard pile\n", game.hand[player][2]);
+
+	printf("discard pile contents: ");
+
+	if(testGame.discardCount[player] == 0){
+		printf(" empty");
+	}
+
+	for(i=0; i<testGame.discardCount[player]; i++){
+	   	printf("(%d)", testGame.discard[player][i]);
+	   	if(testGame.discard[player][i] == 1){
+		   	gain = 1;
+		}
+	}
+	printf("\n");
+
 	if(gain == 0){
 		test_success = myassert(0, test_success);
 	}
 
+	printf("\n**************************************************\n\n");
 
+	// test case 3
+	gain = 0;
+	game.hand[player][0] = remodel;
+	game.hand[player][1] = adventurer;
+	game.hand[player][2] = estate;
+	game.hand[player][3] = copper;
+	game.hand[player][4] = smithy;
 	
+	// copy the game state to a test case	
+	memcpy(&testGame, &game, sizeof(struct gameState));
+
+	//testing an invalid input
+	printf("\ncard to trash costs %d, card to gain costs %d\n", getCost(game.hand[player][3]), getCost(game.hand[player][4]));
+ 	
+	r = playRemodel(3, game.hand[player][4], handPos, player, &testGame, m, n);
+	
+	printf("playRemodel returned %d, expected to return %d\n", r, -1);
+	
+	if(r == 0){
+	   	test_success = myassert(0, test_success);
+	}
+	printf("\n");
+	
+	//testing that no cards were gained
+	printf("Gained card %d should not be in the discard pile\n", game.hand[player][4]);
+
+	printf("discard pile contents: ");
+
+	if(testGame.discardCount[player] == 0){
+		printf(" empty");
+	}
+
+	for(i=0; i<testGame.discardCount[player]; i++){
+	   	printf("(%d)", testGame.discard[player][i]);
+	   	if(testGame.discard[player][i] == game.hand[player][4]){
+		   	gain = 1;
+		}
+	}
+	printf("\n");
+
+	if(gain == 1){
+		test_success = myassert(0, test_success);
+	}
+
+
 	printf("\n**************************************************\n\n");
 
 	//cycling through each choice to trash
