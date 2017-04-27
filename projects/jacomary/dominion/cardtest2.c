@@ -53,7 +53,6 @@ int main() {
 
 	printf("----------------- Testing Card: %s ----------------\n", TESTCARD);
 
-	// ----------- TEST 1 -------------
 
 	// copy the game state to a test case
 	memcpy(&testGame, &game, sizeof(struct gameState));
@@ -94,9 +93,9 @@ int main() {
 	test_success = myassert(testTreasureTwo == copper || testTreasureTwo == silver || testTreasureTwo == gold, test_success);
 
 	//checking that both game and testGame got the same treasure cards
-	printf("\nfirst drawn treasure = %d, expected first drawn treasure = %d (note - 4 is copper, 5 is silver, 6 is gold)\n", testTreasureOne, treasureOne);
+	printf("\nfirst drawn treasure = %d, expected first drawn treasure = %d (note: 4 is copper, 5 is silver, 6 is gold)\n", testTreasureOne, treasureOne);
 	test_success = myassert(testTreasureOne == treasureOne, test_success);
-	printf("\nsecond drawn treasure = %d , expected second drawn treasure = %d (note - 4 is copper, 5 is silver, 6 is gold)\n", testTreasureTwo, treasureTwo);
+	printf("\nsecond drawn treasure = %d , expected second drawn treasure = %d (note: 4 is copper, 5 is silver, 6 is gold)\n", testTreasureTwo, treasureTwo);
 	test_success = myassert(testTreasureTwo == treasureTwo, test_success);
 	
 	//Testing the number of cards discarded
@@ -145,7 +144,7 @@ int main() {
 	test_success = myassert(testGame.supplyCount[province] == game.supplyCount[province], test_success);
 
 	//testing that no state changes occured to the kingdom card piles
-	printf("\nTesting the kindom card piles\n");
+	printf("\nTesting the kingdom card piles\n");
 
 	test_success = myassert(testGame.supplyCount[adventurer] == game.supplyCount[adventurer], test_success);
 	test_success = myassert(testGame.supplyCount[embargo] == game.supplyCount[embargo], test_success);

@@ -695,6 +695,8 @@ int playVillage(int handPos, int currentPlayer, struct gameState *state) {
       return 0;
 }
 
+//bug introduced - added one to the card to be gained (in gainCard parameters) 
+//so the player will gain the incorrect card or will not gain a card at all if choice2 +1 is one of the kingdom cards not in the game
 int playRemodel(int choice1, int choice2, int handPos, int currentPlayer, struct gameState *state, int j, int i){
 	j = state->hand[currentPlayer][choice1];  //store card we will trash
       	
@@ -703,7 +705,7 @@ int playRemodel(int choice1, int choice2, int handPos, int currentPlayer, struct
 		return -1;
 	}
 
-      	gainCard(choice2, state, 0, currentPlayer);
+      	gainCard(choice2 + 1, state, 0, currentPlayer);
 
       	//discard card from hand
       	discardCard(handPos, currentPlayer, state, 0);

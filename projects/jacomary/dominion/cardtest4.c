@@ -1,5 +1,5 @@
 /*
- * cardtest1.c
+ * cardtest4.c
  *   
      
  */
@@ -7,8 +7,8 @@
 /*
  * Include the following lines in your makefile:
  * 
- * cardtest1: cardtest1.c dominion.o rngs.o
- * gcc -o cardtest1 -g cardtest1.c dominion.o rngs.o $(CFLAGS)
+ * cardtest4: cardtest4.c dominion.o rngs.o
+ * gcc -o cardtest4 -g cardtest4.c dominion.o rngs.o $(CFLAGS)
  */
 
 
@@ -19,7 +19,7 @@
 #include "rngs.h"
 #include <stdlib.h>
 
-#define TESTCARD "village"
+#define TESTCARD "smithy"
 
 int main() {
 	int newCards = 0;
@@ -47,15 +47,14 @@ int main() {
 
 	printf("----------------- Testing Card: %s ----------------\n", TESTCARD);
 
-	// ----------- TEST 1 -------------
 
 	// copy the game state to a test case
 	memcpy(&testGame, &game, sizeof(struct gameState));
 
-	playVillage(player, handPos, &testGame);	
+	playSmithy(player, handPos, &testGame);	
 
-	// Testing that the player got +1 cards	
-	newCards = 1;
+	// Testing that the player got +3 cards	
+	newCards = 3;
 	//checking the hand	
 	printf("\nhand count = %d, expected hand count = %d\n", testGame.handCount[player], game.handCount[player] + newCards - discarded);
 	test_success = myassert(testGame.handCount[player] == (game.handCount[player] + newCards - discarded), test_success);
@@ -64,8 +63,8 @@ int main() {
 	printf("\ndeck count = %d, expected deck count = %d\n", testGame.deckCount[player], game.deckCount[player] - newCards + shuffledCards);	
 	test_success = myassert(testGame.deckCount[player] == (game.deckCount[player] - newCards + shuffledCards), test_success);
 	
-	// Testing that the player got +2 actions
-	newActions = 2;
+	// Testing that the actions are unchanged
+	newActions = 0;
 	// decremented the actions by one because this unit test does not enter the playCard function which is in charge of decrementing the players actions when action cards are played	
 	printf("\nnumber of actions = %d, expected number of actions = %d\n", testGame.numActions - turnAction, game.numActions + newActions - turnAction);
 	test_success = myassert((testGame.numActions - turnAction) == (game.numActions + newActions - turnAction), test_success);

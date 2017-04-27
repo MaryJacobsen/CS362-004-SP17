@@ -270,7 +270,7 @@ int main() {
 	test_success = myassert(testGame.supplyCount[province] == game.supplyCount[province], test_success);
 
 	//testing that no state changes occured to the kingdom card piles
-	printf("\nTesting the kindom card piles\n");
+	printf("\nTesting the kingdom card piles\n");
 
 	test_success = myassert(testGame.supplyCount[adventurer] == game.supplyCount[adventurer], test_success);
 	test_success = myassert(testGame.supplyCount[embargo] == game.supplyCount[embargo], test_success);
