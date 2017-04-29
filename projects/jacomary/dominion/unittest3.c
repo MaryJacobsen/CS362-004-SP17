@@ -24,6 +24,7 @@ int main() {
 	int test_success = 1;
 	int i;
     	int count;
+	int gameOver;
     	int seed = 1000;
     	int numPlayers = 2;
     	int player = 0;
@@ -52,7 +53,7 @@ int main() {
 
 	//test case 2 province pile is empty
 	
-	testGame.supplyCount[province] = 0;
+	game.supplyCount[province] = 0;
 
 	// copy the game state to a test case
 	memcpy(&testGame, &game, sizeof(struct gameState));
@@ -64,10 +65,10 @@ int main() {
 	
 	//test case 3: three supply piles are empty
 	
-	testGame.supplyCount[province] = 10;
-	testGame.supplyCount[village] = 0;
-	testGame.supplyCount[adventurer] = 0;
-	testGame.supplyCount[minion] = 0;
+	game.supplyCount[province] = 10;
+	game.supplyCount[village] = 0;
+	game.supplyCount[adventurer] = 0;
+	game.supplyCount[minion] = 0;
 
 	// copy the game state to a test case
 	memcpy(&testGame, &game, sizeof(struct gameState));
@@ -79,10 +80,10 @@ int main() {
 	
 	//test case 4: three supply piles are empty and provinces are empty
 	
-	testGame.supplyCount[province] = 0;
-	testGame.supplyCount[village] = 0;
-	testGame.supplyCount[adventurer] = 0;
-	testGame.supplyCount[minion] = 0;
+	game.supplyCount[province] = 0;
+	game.supplyCount[village] = 0;
+	game.supplyCount[adventurer] = 0;
+	game.supplyCount[minion] = 0;
 
 	// copy the game state to a test case
 	memcpy(&testGame, &game, sizeof(struct gameState));
@@ -94,20 +95,33 @@ int main() {
 
 	//test case 5: two supply piles are empty, the game is almost over
 	
-	testGame.supplyCount[province] = 2;
-	testGame.supplyCount[village] = 0;
-	testGame.supplyCount[adventurer] = 0;
-	testGame.supplyCount[minion] = 1;
+	game.supplyCount[province] = 2;
+	game.supplyCount[village] = 0;
+	game.supplyCount[adventurer] = 0;
+	game.supplyCount[minion] = 1;
 
 	// copy the game state to a test case
 	memcpy(&testGame, &game, sizeof(struct gameState));
 
 	gameOver = isGameOver(&testGame);	
 
-	printf("\nfunction isGameOver returned %d, expected return value 1\n", gameOver);
-	test_success = myassert(gameOver == 1, test_success);
+	printf("\nfunction isGameOver returned %d, expected return value 0\n", gameOver);
+	test_success = myassert(gameOver == 0, test_success);
 	
+	// Testing that no state changes occured for any of the players	
+	printf("\nother player hand count = %d, other player expected hand count = %d\n", testGame.handCount[otherPlayer], game.handCount[otherPlayer]);
+	test_success = myassert(testGame.handCount[otherPlayer] == (game.handCount[otherPlayer]), test_success);
 	
+	printf("\nplayer hand count = %d, player expected hand count = %d\n", testGame.handCount[player], game.handCount[player]);
+	test_success = myassert(testGame.handCount[player] == (game.handCount[player]), test_success);
+
+	printf("\nother player deck count = %d, other player expected deck count = %d\n", testGame.deckCount[otherPlayer], game.deckCount[otherPlayer]);
+	test_success = myassert(testGame.deckCount[otherPlayer] == (game.deckCount[otherPlayer]), test_success);
+
+	printf("\nplayer deck count = %d, player expected deck count = %d\n", testGame.deckCount[player], game.deckCount[player]);
+	test_success = myassert(testGame.deckCount[player] == (game.deckCount[player]), test_success);
+
+
 	//testing that no state changes occured to the victory card piles
 	printf("\nTesting the victory card piles\n");
 

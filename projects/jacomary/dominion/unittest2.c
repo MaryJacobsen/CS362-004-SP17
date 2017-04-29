@@ -41,31 +41,36 @@ int main() {
 	
 	printf("\n*******************************************************\n");
 
-	printf("\nTest Case 1\n");
 	game.hand[player][0] = silver;
 	game.hand[player][1] = adventurer;
 	game.hand[player][2] = estate;
 	game.hand[player][3] = copper;
 	game.hand[player][4] = smithy;
+	game.handCount[player] = 5;
 
 	game.deck[player][0] = estate;
 	game.deck[player][1] = estate;
 	game.deck[player][2] = copper;
 	game.deck[player][3] = copper;
 	game.deck[player][4] = silver;
+	game.deckCount[player] = 5;
 	
 	game.discard[player][0] = remodel;
 	game.discard[player][1] = estate;
 	game.discard[player][2] = silver;
 	game.discard[player][3] = adventurer;
 	game.discard[player][4] = smithy;
+	game.discardCount[player] = 5;
 
 
 	// copy the game state to a test case
 	memcpy(&testGame, &game, sizeof(struct gameState));
 
 	//test case 1: checking for a card that isn't in there
+	printf("\ntest case 1: counting a card that isn't there\n");	
+	
 	count = fullDeckCount(player, 11, &testGame);	
+	
 	printf("\ncount of card = %d, expected count of card = %d\n", count, 0);
 	test_success = myassert(count == 0, test_success); 	
 	
@@ -87,7 +92,10 @@ int main() {
 	printf("\n*******************************************************\n");
 	
 	//test case 2: checking for a card that is in deck and hand
+	printf("\ntest case 2: counting a card that is in the deck and hand\n");	
+	
 	count = fullDeckCount(player, 4, &testGame);	
+	
 	printf("\ncount of card = %d, expected count of card = %d\n", count, 3);
 	test_success = myassert(count == 3, test_success); 	
 	
@@ -108,7 +116,10 @@ int main() {
 	printf("\n*******************************************************\n");
 	
 	//test case 3: checking for a card that is in deck, hand, and discard
+	printf("\ntest case 3: counting a card that is in deck, hand, and discard\n");	
+	
 	count = fullDeckCount(player, 1, &testGame);	
+	
 	printf("\ncount of card = %d, expected count of card = %d\n", count, 4);
 	test_success = myassert(count == 4, test_success); 	
 	
@@ -129,7 +140,10 @@ int main() {
 	printf("\n*******************************************************\n");
 
 	//test case 4: checking for a card that is in just discard
+	printf("\ntest case 4: counting a card that is just in the discard\n");	
+	
 	count = fullDeckCount(player, 12, &testGame);	
+	
 	printf("\ncount of card = %d, expected count of card = %d\n", count, 1);
 	test_success = myassert(count == 1, test_success); 	
 	
