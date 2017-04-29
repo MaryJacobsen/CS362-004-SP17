@@ -24,7 +24,7 @@
 int main() {
 	int test_success = 1;
 	int i;
-    	int count;
+//    	int count;
     	int seed = 1000;
     	int numPlayers = 2;
     	int player = 0;

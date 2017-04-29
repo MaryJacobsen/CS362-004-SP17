@@ -30,7 +30,7 @@ int main() {
 	//int newBuys = 0;
     	//int shuffledCards = 0;
 	int test_success = 1;
-    	int i, j, m; 
+    	int i, j; 
 	int z = 0;
     	//int handPos = 0; 
 	//int bonus = 0;

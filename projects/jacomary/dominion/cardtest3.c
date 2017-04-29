@@ -24,15 +24,15 @@
 int main() {
 	int newCards = 0;
     	int discarded = 1;
-    	int newCoins = 0;
+//    	int newCoins = 0;
 	int newActions = 0;
 	int turnAction = 1;
 	int newBuys = 0;
     	int shuffledCards = 0;
 	int test_success = 1;
-    	int i, j, m, n, r;
-    	int handPos = 0, bonus = 0;
-    	int remove1, remove2;
+    	int i, j, m=0, n=0, r;
+    	int handPos = 0;
+    	int remove1;
 	int choice1, choice2 = 4;
 	int gain;
     	int seed = 1000;
