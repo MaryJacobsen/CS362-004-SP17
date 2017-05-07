@@ -50,7 +50,7 @@ int main() {
 	
 	srand((unsigned) time(&t));
 	
-	printf("----------------- Random Testing Card: %s ----------------\n", TESTCARD);
+	printf("-*-*-*-*-*-*-*-*- Random Testing Card: %s -*-*-*-*-*-*-*-*-\n", TESTCARD);
 
 	for (numTest = 0; numTest < MAX_TESTS; numTest++) {
 		numPlayers = (rand() % 3) + 2;
@@ -59,14 +59,14 @@ int main() {
 
 		initializeGame(numPlayers, k, seed, &game);
 
-		// Randomly give each player cards
+		//Randomly give each player cards
 		for (player = 0; player < numPlayers; player++) {
-			// Randomly assign number of cards to each player
+			//Randomly assign number of cards to each player
 			game.handCount[player] = (rand() % (MAX_HAND - 1)) + 1;
 			game.deckCount[player] = rand() % (MAX_DECK - game.handCount[player]);
 			game.discardCount[player] = rand() % (MAX_DECK - game.handCount[player] - game.deckCount[player]);
 			
-			// Randomly give each player a deck
+			//Randomly give each player a deck
 			for (card = 0; card < game.deckCount[player]; card++) {
 				value = rand() % 13;
 				if (value < 10)
@@ -81,7 +81,7 @@ int main() {
 					if(assert1(1, "not a valid card", numTest) == 1) numFailed++;
 			}
 
-			// Randomly give each player a discard pile
+			//Randomly give each player a discard pile
 			for (card = 0; card < game.discardCount[player]; card++) {
 				value = rand() % 13;
 				if (value < 10)
@@ -96,7 +96,7 @@ int main() {
 					if(assert1(1, "not a valid card", numTest) == 1) numFailed++;
 			}
 			
-			// Randomly give each player a hand
+			//Randomly give each player a hand
 			for (card = 0; card < game.handCount[player]; card++) {
 				value = rand() % 13;
 				if (value < 10)
@@ -128,7 +128,7 @@ int main() {
 			numTreasures = 2;
 		}
 		
-		//Play Card
+		//Call playAdventurer
 
 		if(assert1(playAdventurer(player, &gameAfterCall, drawnTreasure, cardDrawn, temphand, z) == 0, "function playAdventurer failed", numTest) == 1) numFailed++;
 		
@@ -144,7 +144,7 @@ int main() {
 	}
 
 	printf("*-*-*-*-* RANDOM TESTS COMPLETE *-*-*-*-*\n");
-	printf("Number of failed tests = %d\n", numFailed);
-
+	printf("Number of failed tests = %d out of %d total\n", numFailed, MAX_TESTS);
+	
 	return 0;
 }
