@@ -23,7 +23,7 @@ int main() {
 	sea_hag, tribute, smithy};
 
 	int numTest, numPlayers, player, seed, card, value; 
-	int numFailed = 0;
+	int numFailed = -1, newCards = 3, discarded = 1;
 	int smithyPos[4];
 	struct gameState game, gameAfterCall;
 	time_t t;
@@ -108,11 +108,48 @@ int main() {
 
 		//tests
 		
-		//+3 minus smithy because it was discard so +2
-		if(assert1(gameAfterCall.handCount[player] == game.handCount[player] + 2, "error in adding 3 cards to hand", numTest) == 1) numFailed++;
+		int cards = game.discardCount[player] + game.deckCount[player];	
+		if(cards > 2){	
+			//checking that player got +3 cards
+			if(assert1(gameAfterCall.handCount[player] == game.handCount[player] + newCards - discarded, "error in adding 3 cards to hand", numTest) == 1) numFailed++;
+		}
 
-		
+		//checking that actions were unchanged
+		if(assert1(gameAfterCall.numActions == game.numActions, "actions were changed", numTest) == 1) numFailed++;
+
+		//checking that buys were unchanged
+		if(assert1(gameAfterCall.numBuys == game.numBuys, "buys were changed", numTest) == 1) numFailed++;
+
+		//checking that the card played was smithy
 		if(assert1(gameAfterCall.playedCards[gameAfterCall.playedCardCount-1] == smithy, "the last played card was not smithy", numTest) == 1) numFailed++;
+		
+		//changing the player
+		if(player == numPlayers) player--;
+		
+		else player++;
+
+		//Testing that no state changes occured for another player	
+		if(assert1(gameAfterCall.handCount[player] == (game.handCount[player]), "another player's hand was changed", numTest) == 1) numFailed++;
+
+		if(assert1(gameAfterCall.deckCount[player] == (game.deckCount[player]), "another player's deck was changed", numTest) == 1) numFailed++;
+		
+		//testing that no state changes occured to the victory card piles
+		if(assert1(gameAfterCall.supplyCount[estate] == game.supplyCount[estate], "estate pile was changed", numTest) == 1) numFailed++;
+		if(assert1(gameAfterCall.supplyCount[duchy] == game.supplyCount[duchy], "duchy pile was changed", numTest) == 1) numFailed++;
+		if(assert1(gameAfterCall.supplyCount[province] == game.supplyCount[province], "province pile was changed", numTest) == 1) numFailed++;
+
+		//testing that no state changes occured to the kingdom card piles
+		if(assert1(gameAfterCall.supplyCount[adventurer] == game.supplyCount[adventurer], "adventurer pile was changed", numTest) == 1) numFailed++;
+		if(assert1(gameAfterCall.supplyCount[embargo] == game.supplyCount[embargo], "embargo pile was changed", numTest) == 1) numFailed++;	
+		if(assert1(gameAfterCall.supplyCount[village] == game.supplyCount[village], "village pile was changed", numTest) == 1) numFailed++;
+		if(assert1(gameAfterCall.supplyCount[minion] == game.supplyCount[minion], "minion pile was changed", numTest) == 1) numFailed++;
+		if(assert1(gameAfterCall.supplyCount[mine] == game.supplyCount[mine], "mine pile was changed", numTest) == 1) numFailed++;
+		if(assert1(gameAfterCall.supplyCount[cutpurse] == game.supplyCount[cutpurse], "cutpurse pile was changed", numTest) == 1) numFailed++;
+		if(assert1(gameAfterCall.supplyCount[sea_hag] == game.supplyCount[sea_hag], "sea hag pile was changed", numTest) == 1) numFailed++;
+		if(assert1(gameAfterCall.supplyCount[tribute] == game.supplyCount[tribute], "tribute pile was changed", numTest) == 1) numFailed++;
+		if(assert1(gameAfterCall.supplyCount[smithy] == game.supplyCount[smithy], "smithy pile was changed", numTest) == 1) numFailed++;
+		if(assert1(gameAfterCall.supplyCount[gardens] == game.supplyCount[gardens], "gardens pile was changed", numTest) == 1) numFailed++;
+
 			
 	}
 

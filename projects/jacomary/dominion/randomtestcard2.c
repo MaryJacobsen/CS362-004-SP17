@@ -6,25 +6,7 @@
 #include <string.h>
 
 #define MAX_TESTS 10000
-#define TESTCARD "adventurer"
-
-int countTreasures(struct gameState game, int player) {
-	int count = 0, i;
-	
-	for (i = 0; i < game.deckCount[player]; i++) {
-		if (game.deck[player][i] == copper || game.deck[player][i] == silver || game.deck[player][i] == gold) {	
-			count++;
-		}
-	}
-	
-	for (i = 0; i < game.discardCount[player]; i++) {
-		if (game.discard[player][i] == copper || game.discard[player][i] == silver || game.discard[player][i] == gold) {
-			count++;
-		}
-	}
-	
-	return count;
-}
+#define TESTCARD "village"
 
 
 int assert1(int result, char *errorMsg, int testNumber) {
@@ -40,11 +22,10 @@ int main() {
 	int k[10] = {adventurer, gardens, embargo, village, minion, mine, cutpurse, 
 	sea_hag, tribute, smithy};
 
-	int numTest, numPlayers, player, seed, card, value, i; 
-	int numTreasures = 0, drawnTreasure = 0, cardDrawn = 0, z = 0, discarded = 1;;
-	int numFailed = 0;
-	int adventurerPos[4];
-	int temphand[MAX_HAND];
+	int numTest, numPlayers, player, seed, card, value; 
+	int newCards = 1, discarded = 1, newActions = 2;
+	int numFailed = -1;
+	int villagePos[4];
 	struct gameState game, gameAfterCall;
 	time_t t;
 	
@@ -111,9 +92,9 @@ int main() {
 					if(assert1(1, "not a valid card", numTest) == 1) numFailed++;
 			}
 			
-			//Place an adventurer card in each player's hand
-			adventurerPos[player] = rand() % game.handCount[player];
-			game.hand[player][adventurerPos[player]] = adventurer;
+			//Place a smithy card in each player's hand
+			villagePos[player] = rand() % game.handCount[player];
+			game.hand[player][villagePos[player]] = village;
 		}
 
 		player = rand() % numPlayers;
@@ -123,34 +104,29 @@ int main() {
 		memcpy(&gameAfterCall, &game, sizeof game);
 		if(assert1(!memcmp(&gameAfterCall, &game, sizeof game), "game and gameAfterCall are not the same", numTest) == 1) numFailed++;
 		
-		numTreasures = countTreasures(game, player);
-		if (numTreasures > 2) {
-			numTreasures = 2;
-		}
-		
-		//Call playAdventurer
+		//Call playVillage
+		if(assert1(playVillage(villagePos[player], player, &gameAfterCall) == 0, "function playVillage failed", numTest) == 1) numFailed++;	
 
-		if(assert1(playAdventurer(player, &gameAfterCall, drawnTreasure, cardDrawn, temphand, z) == 0, "function playAdventurer failed", numTest) == 1) numFailed++;
-		
 		//tests
-
-		if(assert1(gameAfterCall.handCount[player] == game.handCount[player] + numTreasures - discarded, "error in adding treasures to hand", numTest) == 1) numFailed++;
 		
-		for (i = 1; i <= numTreasures; i++) {
-			if(assert1(gameAfterCall.hand[player][gameAfterCall.handCount[player]-i] == copper || 
-			        gameAfterCall.hand[player][gameAfterCall.handCount[player]-i] == silver ||
-			        gameAfterCall.hand[player][gameAfterCall.handCount[player]-i] == gold, "cards put into hand were not treasures", numTest) == 1) numFailed++;
+		int cards = game.discardCount[player] + game.deckCount[player];	
+		if(cards > 0){
+			//checking player's hand has +1 card
+			if(assert1(gameAfterCall.handCount[player] == game.handCount[player] + newCards - discarded, "error in adding 1 card to hand", numTest) == 1) numFailed++;
 		}
 
-		//checking that actions were unchanged
-		if(assert1(gameAfterCall.numActions == game.numActions, "actions were changed", numTest) == 1) numFailed++;
-
+		//checking that the player got +2 actions
+		if(assert1(gameAfterCall.numActions == game.numActions + newActions, "player did not receive +2 actions", numTest) == 1) numFailed++;
+		
 		//checking that buys were unchanged
 		if(assert1(gameAfterCall.numBuys == game.numBuys, "buys were changed", numTest) == 1) numFailed++;
-
-		//changing the player
-		if(player == numPlayers) player--;
 		
+		//checking that the card played was village
+		if(assert1(gameAfterCall.playedCards[gameAfterCall.playedCardCount-1] == village, "the last played card was not village", numTest) == 1) numFailed++;
+		
+		//changing to another player
+		if(player == numPlayers) player--;
+
 		else player++;
 
 		//Testing that no state changes occured for another player	
@@ -174,11 +150,10 @@ int main() {
 		if(assert1(gameAfterCall.supplyCount[tribute] == game.supplyCount[tribute], "tribute pile was changed", numTest) == 1) numFailed++;
 		if(assert1(gameAfterCall.supplyCount[smithy] == game.supplyCount[smithy], "smithy pile was changed", numTest) == 1) numFailed++;
 		if(assert1(gameAfterCall.supplyCount[gardens] == game.supplyCount[gardens], "gardens pile was changed", numTest) == 1) numFailed++;
-
 	}
 
 	printf("*-*-*-*-* RANDOM TESTS COMPLETE *-*-*-*-*\n");
 	printf("Number of failed tests = %d out of %d total\n", numFailed, MAX_TESTS);
-	
+
 	return 0;
 }

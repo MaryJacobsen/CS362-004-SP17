@@ -1,6 +1,6 @@
 CFLAGS = -Wall -fpic -coverage -lm
 
-all: playdom player testDrawCard testBuyCard badTestDrawCard randomtestadventurer randomtestcard1
+all: playdom player testDrawCard testBuyCard badTestDrawCard randomtestadventurer randomtestcard1 randomtestcard2
 
 unittestresults.out: cardtest1 cardtest2 cardtest3 cardtest4 unittest1 unittest2 unittest3 unittest4
 	cat dominion.c.gcov >> unittestresults.out
@@ -82,6 +82,9 @@ randomtestadventurer: randomtestadventurer.c dominion.o rngs.o
 
 randomtestcard1: randomtestcard1.c dominion.o rngs.o
 	gcc -o randomtestcard1 -g randomtestcard1.c dominion.o rngs.o $(CFLAGS)
+
+randomtestcard2: randomtestcard2.c dominion.o rngs.o
+	gcc -o randomtestcard2 -g randomtestcard2.c dominion.o rngs.o $(CFLAGS)
 
 clean:
 	rm -f *.o playdom.exe playdom test.exe test player player.exe testInit testInit.exe *.gcov *.gcda *.gcno *.so cardtest1
