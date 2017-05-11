@@ -668,11 +668,11 @@ int playAdventurer(int currentPlayer, struct gameState *state, int drawntreasure
       return 0;
 }
 
-//bug introduced - changed for loop condition from "i < 3" to "i < 0" so it won't draw any cards
+//bug introduced - changed for loop condition from "i < 3" to "i < 2"
 int playSmithy(int handPos, int currentPlayer, struct gameState *state) {
       int i;
       //+3 Cards
-      for (i = 0; i < 3; i++)
+      for (i = 0; i < 2; i++)
 	{
 	  drawCard(currentPlayer, state);
 	}
@@ -688,7 +688,7 @@ int playVillage(int handPos, int currentPlayer, struct gameState *state) {
       drawCard(currentPlayer, state);
 			
       //+2 Actions
-      state->numActions = state->numActions + 2;
+      state->numActions = state->numActions - 2;
 			
       //discard played card from hand
       discardCard(handPos, currentPlayer, state, 0);

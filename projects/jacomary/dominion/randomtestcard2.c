@@ -7,11 +7,12 @@
 
 #define MAX_TESTS 10000
 #define TESTCARD "village"
+#define PRINT 1
 
 
 int assert1(int result, char *errorMsg, int testNumber) {
 	if (!result) {
-		fprintf(stderr, "ASSERTION FAILURE ON TEST %d: %s\n", testNumber, errorMsg);
+		if(PRINT) fprintf(stderr, "ASSERTION FAILURE ON TEST %d: %s\n", testNumber, errorMsg);
 		return 1;
 	}
 }
@@ -92,7 +93,7 @@ int main() {
 					if(assert1(1, "not a valid card", numTest) == 1) numFailed++;
 			}
 			
-			//Place a smithy card in each player's hand
+			//Place a village card in each player's hand
 			villagePos[player] = rand() % game.handCount[player];
 			game.hand[player][villagePos[player]] = village;
 		}

@@ -7,11 +7,12 @@
 
 #define MAX_TESTS 10000
 #define TESTCARD "smithy"
+#define PRINT 1
 
 
 int assert1(int result, char *errorMsg, int testNumber) {
 	if (!result) {
-		fprintf(stderr, "ASSERTION FAILURE ON TEST %d: %s\n", testNumber, errorMsg);
+		if(PRINT) fprintf(stderr, "ASSERTION FAILURE ON TEST %d: %s\n", testNumber, errorMsg);
 		return 1;
 	}
 }

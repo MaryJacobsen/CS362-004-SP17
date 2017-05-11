@@ -7,6 +7,7 @@
 
 #define MAX_TESTS 10000
 #define TESTCARD "adventurer"
+#define PRINT 1
 
 int countTreasures(struct gameState game, int player) {
 	int count = 0, i;
@@ -29,7 +30,7 @@ int countTreasures(struct gameState game, int player) {
 
 int assert1(int result, char *errorMsg, int testNumber) {
 	if (!result) {
-		fprintf(stderr, "ASSERTION FAILURE ON TEST %d: %s\n", testNumber, errorMsg);
+	   	if(PRINT) fprintf(stderr, "ASSERTION FAILURE ON TEST %d: %s\n", testNumber, errorMsg);
 		return 1;
 	}
 }
@@ -42,7 +43,7 @@ int main() {
 
 	int numTest, numPlayers, player, seed, card, value, i; 
 	int numTreasures = 0, drawnTreasure = 0, cardDrawn = 0, z = 0, discarded = 1;;
-	int numFailed = 0;
+	int numFailed = -1;
 	int adventurerPos[4];
 	int temphand[MAX_HAND];
 	struct gameState game, gameAfterCall;
