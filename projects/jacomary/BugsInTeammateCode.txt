@@ -1,0 +1,65 @@
+Adventurer - Player only receives one treasure card
+ 
+Product: dominion (version olesona) 
+ 
+Classification: Minor Bug - Adventurer will not be as good as a card for the players because of the bug but it will not crash the program or anything.
+ 
+Platform: OS X 10.10.5 Yosemite, /bin/tcsh unix shell
+ 
+Can it be reproduced?: Every time
+ 
+Description:
+I was testing the refactored adventurer_card function. I ran cardtest2 and looked in unittestresults.out. The second treasure card received by the player was not as expected. The hand count of the player was one lower than expected whereas the deck count of the player was one higher than expected. That lead me to believe that the player did not receive a second treasure card. The bug is caused by the drawn treasure counter being incremented by two instead of one. This bug causes the player to only receive one treasure card from the deck when adventurer is played instead of two. It is located on line 663 of dominion.c in the olesona version. I found this bug by checking the hand, deck, and treasure cards received before and after the function call and then looking through the function to see why the player didn’t get a second treasure card.
+
+ 
+Steps to Reproduce: 
+Run cardtest2 and look in unittestresults.out or just call adventurer_card() and check the hand before and after to see that the player only received one treasure card.
+ 
+Expected Results:
+I expected to see that the player received two treasure cards.
+ 
+Actual Results:
+I saw that the player only received one treasure card.
+Workaround:
+If you call adventurer_card() twice then the player receives the correct amount of treasure cards.
+ 
+Attachments:
+Unittestsresults.out, randomtestadventurer.out
+ 
+Contact Information:
+jacomary@oregonstate.edu
+
+
+
+
+Smithy - Player receives five cards instead of three
+ 
+Product: dominion (version olesona) 
+ 
+Classification: Minor Bug - The player will receive two extra cards when they play smithy because of the bug but it will not crash the program or anything.
+ 
+Platform: OS X 10.10.5 Yosemite, /bin/tcsh unix shell
+ 
+Can it be reproduced?: Every time
+ 
+Description:
+I was testing the refactored smithy_card function. I ran cardtest4 and looked in unittestresults.out. The hand count was two more than expected whereas the deck count was two less than expected. This lead me to believe that the player received five cards instead of three. The bug is caused by the loop that draws a card each time it loops looping through five times instead of three. This bug causes the player to draw two cards too many. The bug is located on line 686 of dominion.c in the olesona version. I found this bug by checking the player’s hand and deck before and after the function call and then looking through the function to see why the player received too many cards.
+
+ 
+Steps to Reproduce: 
+Run cardtest4 and look in unittestresults.out or just call adventurer_card() and check the hand before and after to see that the player received five cards.
+ 
+Expected Results:
+I expected to see that the player received exactly three cards.
+Actual Results:
+I saw that the player received five cards.
+ 
+Workaround:
+I do not know of any workarounds for this bug.
+ 
+Attachments:
+Unittestsresults.out, randomtestcard1.out
+ 
+Contact Information:
+jacomary@oregonstate.edu
+
