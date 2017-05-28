@@ -1,0 +1,7 @@
+-*-*-*-*-*-*-*-*- Random Testing Card: adventurer -*-*-*-*-*-*-*-*-
+*-*-*-*-* RANDOM TESTS COMPLETE *-*-*-*-*
+Number of failed tests = 7785 out of 10000 total
+File 'dominion.c'
+Lines executed:34.70% of 562
+Creating 'dominion.c.gcov'
+

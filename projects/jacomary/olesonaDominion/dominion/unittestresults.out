@@ -1,0 +1,330 @@
+----------------- Testing Card: village ----------------
+
+hand count = 5, expected hand count = 5
+
+deck count = 4, expected deck count = 4
+
+number of actions = 2, expected number of actions = 2
+
+number of buys = 1, expected number of buys = 1
+
+other player hand count = 0, other player expected hand count = 0
+
+other player deck count = 10, other player expected deck count = 10
+
+Testing the victory card piles
+
+Testing the kingdom card piles
+
+ >>>>> SUCCESS: Testing complete village <<<<<
+
+File 'dominion.c'
+Lines executed:18.86% of 562
+Creating 'dominion.c.gcov'
+
+----------------- Testing Card: adventurer ----------------
+test failed
+
+first drawn treasure = 4, expected first drawn treasure = 4 (note: 4 is copper, 5 is silver, 6 is gold)
+
+second drawn treasure = 0 , expected second drawn treasure = 4 (note: 4 is copper, 5 is silver, 6 is gold)
+test failed
+
+number of cards discarded = 0, expected number of cards discarded = 0
+
+hand count = 6, expected hand count = 7
+test failed
+
+deck count = 4, expected deck count = 3
+test failed
+
+number of actions = 1, expected number of actions = 1
+
+number of buys = 1, expected number of buys = 1
+
+other player hand count = 0, other player expected hand count = 0
+
+other player deck count = 10, other player expected deck count = 10
+
+Testing the victory card piles
+
+Testing the kingdom card piles
+
+ >>>>> adventurer TEST FAILED <<<<<
+
+File 'dominion.c'
+Lines executed:21.00% of 562
+Creating 'dominion.c.gcov'
+
+----------------- Testing Card: smithy ----------------
+
+hand count = 9, expected hand count = 7
+test failed
+
+deck count = 0, expected deck count = 2
+test failed
+
+number of actions = 0, expected number of actions = 0
+
+number of buys = 1, expected number of buys = 1
+
+other player hand count = 0, other player expected hand count = 0
+
+other player deck count = 10, other player expected deck count = 10
+
+Testing the victory card piles
+
+Testing the kingdom card piles
+
+ >>>>> smithy TEST FAILED <<<<<
+
+File 'dominion.c'
+Lines executed:22.06% of 562
+Creating 'dominion.c.gcov'
+
+----------------- Testing Card: village ----------------
+
+hand count = 5, expected hand count = 5
+
+deck count = 4, expected deck count = 4
+
+number of actions = 2, expected number of actions = 2
+
+number of buys = 1, expected number of buys = 1
+
+other player hand count = 0, other player expected hand count = 0
+
+other player deck count = 10, other player expected deck count = 10
+
+Testing the victory card piles
+
+Testing the kingdom card piles
+
+ >>>>> SUCCESS: Testing complete village <<<<<
+
+File 'dominion.c'
+Lines executed:18.86% of 562
+Creating 'dominion.c.gcov'
+
+----------------- Testing Card: adventurer ----------------
+test failed
+
+first drawn treasure = 4, expected first drawn treasure = 4 (note: 4 is copper, 5 is silver, 6 is gold)
+
+second drawn treasure = 0 , expected second drawn treasure = 4 (note: 4 is copper, 5 is silver, 6 is gold)
+test failed
+
+number of cards discarded = 0, expected number of cards discarded = 0
+
+hand count = 6, expected hand count = 7
+test failed
+
+deck count = 4, expected deck count = 3
+test failed
+
+number of actions = 1, expected number of actions = 1
+
+number of buys = 1, expected number of buys = 1
+
+other player hand count = 0, other player expected hand count = 0
+
+other player deck count = 10, other player expected deck count = 10
+
+Testing the victory card piles
+
+Testing the kingdom card piles
+
+ >>>>> adventurer TEST FAILED <<<<<
+
+File 'dominion.c'
+Lines executed:21.00% of 562
+Creating 'dominion.c.gcov'
+
+----------------- Testing Card: smithy ----------------
+
+hand count = 9, expected hand count = 7
+test failed
+
+deck count = 0, expected deck count = 2
+test failed
+
+number of actions = 0, expected number of actions = 0
+
+number of buys = 1, expected number of buys = 1
+
+other player hand count = 0, other player expected hand count = 0
+
+other player deck count = 10, other player expected deck count = 10
+
+Testing the victory card piles
+
+Testing the kingdom card piles
+
+ >>>>> smithy TEST FAILED <<<<<
+
+File 'dominion.c'
+Lines executed:22.06% of 562
+Creating 'dominion.c.gcov'
+
+
+----------------- Testing Card: endTurn ----------------
+
+*******************************************************
+
+discard pile: (5)(7)(1)(4)(13)
+expected discard pile: (5)(7)(1)(4)(13)
+
+player hand count = 0, player expected hand count = 0
+
+player deck count = 5, player expected deck count = 5
+
+*******************************************************
+
+actions: 1, expected actions: 1
+
+buys: 1, expected buys: 1
+
+coins: 3, expected coins: 3
+
+phase: 0, expected phase: 0
+
+cards played: 0, expected cards: 0
+
+outpost played: 0, expected outpost played: 0
+
+*******************************************************
+
+other player hand count = 5, other player expected hand count = 5
+
+other player deck count = 5, other player expected deck count = 5
+Testing the victory card piles
+
+Testing the kingdom card piles
+
+ >>>>> SUCCESS: Testing complete endTurn <<<<<
+
+File 'dominion.c'
+Lines executed:25.44% of 562
+Creating 'dominion.c.gcov'
+
+
+----------------- Testing Card: fullDeckCount ----------------
+
+*******************************************************
+
+test case 1: counting a card that isn't there
+
+count of card = 0, expected count of card = 0
+cards:
+hand (5)(7)(1)(4)(13)
+deck (1)(1)(4)(4)(5)
+discard (12)(1)(5)(7)(13)
+*******************************************************
+
+test case 2: counting a card that is in the deck and hand
+
+count of card = 3, expected count of card = 3
+cards:
+hand (5)(7)(1)(4)(13)
+deck (1)(1)(4)(4)(5)
+discard (12)(1)(5)(7)(13)
+*******************************************************
+
+test case 3: counting a card that is in deck, hand, and discard
+
+count of card = 4, expected count of card = 4
+cards:
+hand (5)(7)(1)(4)(13)
+deck (1)(1)(4)(4)(5)
+discard (12)(1)(5)(7)(13)
+*******************************************************
+
+test case 4: counting a card that is just in the discard
+
+count of card = 1, expected count of card = 1
+cards:
+hand (5)(7)(1)(4)(13)
+deck (1)(1)(4)(4)(5)
+discard (12)(1)(5)(7)(13)
+*******************************************************
+
+other player hand count = 0, other player expected hand count = 0
+
+player hand count = 5, player expected hand count = 5
+
+other player deck count = 10, other player expected deck count = 10
+
+player deck count = 5, player expected deck count = 5
+
+Testing the victory card piles
+
+Testing the kingdom card piles
+
+ >>>>> SUCCESS: Testing complete fullDeckCount <<<<<
+
+File 'dominion.c'
+Lines executed:27.05% of 562
+Creating 'dominion.c.gcov'
+
+
+----------------- Testing Card: isGameOver ----------------
+
+*******************************************************
+
+function isGameOver returned 0, expected return value 0
+
+function isGameOver returned 1, expected return value 1
+
+function isGameOver returned 1, expected return value 1
+
+function isGameOver returned 1, expected return value 1
+
+function isGameOver returned 0, expected return value 0
+
+other player hand count = 0, other player expected hand count = 0
+
+player hand count = 5, player expected hand count = 5
+
+other player deck count = 10, other player expected deck count = 10
+
+player deck count = 5, player expected deck count = 5
+
+Testing the victory card piles
+
+Testing the kingdom card piles
+
+ >>>>> SUCCESS: Testing complete isGameOver <<<<<
+
+File 'dominion.c'
+Lines executed:28.83% of 562
+Creating 'dominion.c.gcov'
+
+
+----------------- Testing Card: supplyCount ----------------
+
+number of duchys returned: 4, expected number of duchys returned: 4
+
+number of golds returned: 2, expected number of golds returned: 2
+
+number of minions returned: 9, expected number of minions returned: 9
+
+number of adventurers returned: 0, expected number of adventurers returned: 0
+
+other player hand count = 0, other player expected hand count = 0
+
+player hand count = 5, player expected hand count = 5
+
+other player deck count = 10, other player expected deck count = 10
+
+player deck count = 5, player expected deck count = 5
+
+Testing the victory card piles
+
+Testing the kingdom card piles
+
+ >>>>> SUCCESS: Testing complete supplyCount <<<<<
+
+File 'dominion.c'
+Lines executed:29.18% of 562
+Creating 'dominion.c.gcov'
+

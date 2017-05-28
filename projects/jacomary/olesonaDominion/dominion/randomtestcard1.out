@@ -1,0 +1,7 @@
+-*-*-*-*-*-*-*-*- Random Testing Card: smithy -*-*-*-*-*-*-*-*-
+*-*-*-*-* RANDOM TESTS COMPLETE *-*-*-*-*
+Number of failed tests = 9868 out of 10000 total
+File 'dominion.c'
+Lines executed:33.63% of 562
+Creating 'dominion.c.gcov'
+
